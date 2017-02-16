@@ -59,35 +59,35 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser()) # Set up library to g
 ## 3. Invoke your function, save the return value in a variable, and explore the data you got back!
 ## 4. With what you learn from the data -- e.g. how exactly to find the text of each tweet in the big nested structure -- write code to print out content from 3 tweets, as shown above.
 
-# CACHE_FNAME = "twitter_cache_file.json"
-# try: 
-# 	cache_file_obj = open(CACHE_FNAME,'r')
-# 	cache_contents = cache_file_obj.read()
-# 	cache_DICTION = json.loads(cache_contents)
-# except:
-# 	CACHE_DICTION = {}
+CACHE_FNAME = "twitter_cache_file.json"
+try: 
+	cache_file_obj = open(CACHE_FNAME,'r')
+	cache_contents = cache_file_obj.read()
+	cache_DICTION = json.loads(cache_contents)
+except:
+	CACHE_DICTION = {}
 
 
-# def get_twitter_data(phrase):
-# 	unique_identifier = "twitter_{}".format(phrase)
-# 	if unique_identifier in CACHE_DICTION:
-# 		twitter_results = CACHE_DICTION[unique_identifier]
-# 	else: 
-# 		twitter_results = api.user_timeline(phrase)
-# 		CACHE_DICTION[unique_identifier] = twitter_results
-# 		f = open(CACHE_FNAME, 'w')
-# 		f.write(json.dumps(CACHE_DICTION))
-# 		f.close()
+def get_twitter_data(phrase):
+	unique_identifier = "twitter_{}".format(phrase)
+	if unique_identifier in CACHE_DICTION:
+		twitter_results = CACHE_DICTION[unique_identifier]
+	else: 
+		twitter_results = api.user_timeline(phrase)
+		CACHE_DICTION[unique_identifier] = twitter_results
+		f = open(CACHE_FNAME, 'w')
+		f.write(json.dumps(CACHE_DICTION))
+		f.close()
 
 
-search_results = api.search(q= input("Enter a search query"))
-# print (search_results)
-# print (type(search_results))
-# print (search_results.keys())
+search_results = api.search(q= input("Enter a search query\n"))
+print (search_results)
+print (type(search_results))
+print (search_results.keys())
 
 tweet = search_results["statuses"][0]
-# print("\nThe keys of the tweet dictionary:")
-# print(tweet.keys())
+print("\nThe keys of the tweet dictionary:")
+print(tweet.keys())
 
 list_of_tweets = search_results["statuses"]
 
