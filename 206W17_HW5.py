@@ -63,35 +63,46 @@ CACHE_FNAME = "twitter_cache_file.json"
 try: 
 	cache_file_obj = open(CACHE_FNAME,'r')
 	cache_contents = cache_file_obj.read()
-	cache_DICTION = json.loads(cache_contents)
+	CACHE_DICTION = json.loads(cache_contents)
 except:
 	CACHE_DICTION = {}
 
 
-def get_twitter_data(phrase):
-	unique_identifier = "twitter_{}".format(phrase)
+def get_twitter_data(search):
+	unique_identifier = "twitter_{}".format(search)
 	if unique_identifier in CACHE_DICTION:
+		print("using cached data for", search)
+		print ("\n")
 		twitter_results = CACHE_DICTION[unique_identifier]
 	else: 
-		twitter_results = api.user_timeline(phrase)
+		print ("getting data from internet for", search)
+		print ("\n")
+		twitter_results = api.search(q=search)
 		CACHE_DICTION[unique_identifier] = twitter_results
 		f = open(CACHE_FNAME, 'w')
 		f.write(json.dumps(CACHE_DICTION))
 		f.close()
 
+	tweet_texts = []
+	for tweet in twitter_results['statuses']:
+		tweet_texts.append(tweet)
+	return tweet_texts[:3]
 
-search_results = api.search(q= input("Enter a search query\n"))
-print (search_results)
-print (type(search_results))
-print (search_results.keys())
 
-tweet = search_results["statuses"][0]
-print("\nThe keys of the tweet dictionary:")
-print(tweet.keys())
+search_q = input("Enter a search query\n")
+three_tweets = get_twitter_data(search_q)
+#search_results = api.search(q= input("Enter a search query\n"))
+# print (search_results)
+# print (type(search_results)) 
+# print (search_results.keys())
 
-list_of_tweets = search_results["statuses"]
+#tweet = search_results["statuses"][0]
+# print("\nThe keys of the tweet dictionary:")
+# print(tweet.keys())
 
-for tweet in list_of_tweets[:3]:
+#list_of_tweets = search_results["statuses"]
+
+for tweet in three_tweets:
 	print("TEXT:", tweet["text"])
 	print("CREATED AT:", tweet["created_at"])
 	print("\n")
