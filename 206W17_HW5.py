@@ -91,9 +91,6 @@ def get_twitter_data(search):
 
 search_q = input("Enter a search query\n")
 three_tweets = get_twitter_data(search_q)
-#search_results = api.search(q= input("Enter a search query\n"))
-# print (search_results)
-# print (type(search_results)) 
 # print (search_results.keys())
 
 #tweet = search_results["statuses"][0]
